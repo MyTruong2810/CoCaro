@@ -1,0 +1,41 @@
+﻿	▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄     ▄▄▄▄▄▄▄ 
+	█  █ █  █       █   █   █       █
+	█  █▄█  █    ▄▄▄█   █   █    ▄  █
+	█       █   █▄▄▄█   █   █   █▄█ █
+	█   ▄   █    ▄▄▄█   █▄▄▄█    ▄▄▄█
+	█  █ █  █   █▄▄▄█       █   █    
+	█▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄▄█    
+
+
+~~~~~~~~~~~~~~~~~~WINDOW HELP~~~~~~~~~~~~~~~~~
+
+- PRESS ARROW KEYS ON THE KEYBOARD TO MOVE AND
+  ENTER TO SELECT
+
+- TURN BACK - PRESS ESC
+																			
+~~~~~~~~~~~~~~~~~IN GAME HELP~~~~~~~~~~~~~~~~~
+
+			____  ____  ____  ____ 
+- PRESS    ||W ||||A ||||S ||||D ||
+		   ||__||||__||||__||||__|| TO MOVE.
+		   |/__\||/__\||/__\||/__\|
+
+		  _______
+		|| Enter||
+		||      ||
+- PRESS |/l     || TO WRITE X-O. 
+		 l|_____||
+		 |/_____\|
+
+-PRESS SPACE KEYS TO SELECT INGAMEMENU, PRESS ENTER TO SELECT
+
+~~~~~~~~~~~~~~~~~~~~~RULE~~~~~~~~~~~~~~~~~~~~~
+						
+- THE PLAYER WIN WHEN THERE ARE 4 PIECES IN A ROW,
+  COLUM OR DIAGONAL AND IS NOT BLOCK AT 2 END OR HAVE 5
+  PIECES EXTERNAL LINKS.
+						
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+		-PRESS ESC TO BACK MENU-																			

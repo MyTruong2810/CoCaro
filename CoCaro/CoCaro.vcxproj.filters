@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CoCaro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MODEL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CONTROL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="View.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MODEL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CONSTANT_VALUES.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CONTROL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\IN_GAME\SETTINGS\SAVE.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\Assets\IN_GAME\SETTINGS\EXIT.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="CARO.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="HELP.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="LOADING.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="LOADING1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ABOUTUS.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="EXITGAME_SCREEN.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="LOAD.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="MUTE.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="menu.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="PlayerList.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="PlayerListout.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="saveName.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="MENUDS1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="MENUDS2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="MENUDS3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="MENUDS4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ABOUTUS1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="IG_TITLE.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ABOUTUSBT.TXT">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="HONGNGOC.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="TANHAU.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Loadfilemenu.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="TOPRANK.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
