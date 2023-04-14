@@ -1,5 +1,5 @@
 ﻿#include "View.h"
-#include <mmsystem.h>
+#include <mmsystem.h>//THU VIEN DUNG AM THANH
 #include"MODEL.h"
 #include <Windows.h>
 #include <iostream>
@@ -27,7 +27,7 @@ void ChangeConsole() {
 	SetConsoleTitleA("Caro Game");
 	SetConsoleTextAttribute(hConsole, c_def);
 	GetWindowRect(hDesktop, &r);
-	MoveWindow(consoleWindow, r.right/2-WIDTH/2, r.bottom/2-HEIGHT/2, WIDTH, HEIGHT, true);
+	MoveWindow(consoleWindow, r.right / 2 - WIDTH / 2, r.bottom / 2 - HEIGHT / 2, WIDTH, HEIGHT, true);
 }
 
 void DrawTableLine(int numOfCol, wchar_t mainSym, wchar_t subSym, int width)
@@ -52,7 +52,7 @@ void DrawBoard(int pSize) {
 	GotoXY(iniX - 2, iniY - 1);
 	wcout << TOP_LEFT;
 	DrawTableLine(BOARD_SIZE, HORIZONTAL_LINE, TOP_CROSS, B_WIDTH);
-	wcout<< TOP_RIGHT;
+	wcout << TOP_RIGHT;
 
 	for (int i = 0; i < (BOARD_SIZE - 1) * (B_HEIGHT + 1); i++)
 	{
@@ -95,7 +95,7 @@ void SetColor(int color) {
 
 void PrintText(wstring text, int color, int x, int y) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	
+
 	GotoXY(x, y);
 	SetColor(color);
 	wcout << text;
@@ -233,10 +233,10 @@ void TimeUpdate(int& seconds) {
 	--seconds;
 	if (seconds < 0) return;
 	EraseBox(LEFT + B_WIDTH * (BOARD_SIZE / 2), 1, 20, 3, c_def);
-	PrintNumber(0, LEFT + B_WIDTH * (BOARD_SIZE / 2), 1, seconds < 10 ? c_red : c_def);
-	EraseBox(LEFT + B_WIDTH * (BOARD_SIZE / 2) + number_font[0][0].size(), 1, number_font[0][0].size() + 1, number_font[0].size(), seconds < 10 ? c_red : c_def);
-	DrawBigText("DOUBLE_DOT.txt", (seconds < 10 ? c_red : c_def), LEFT + B_WIDTH * (BOARD_SIZE / 2) + number_font[0][0].size() + 1, 1);
-	PrintNumber(seconds, LEFT + B_WIDTH * (BOARD_SIZE / 2) + 7, 1, seconds < 10 ? c_red : c_def);
+	PrintNumber(0, LEFT + B_WIDTH * (BOARD_SIZE / 2) + 1, 1, seconds < 10 ? c_red : c_def);
+	EraseBox(LEFT + B_WIDTH * (BOARD_SIZE / 2) + number_font[0][0].size() + 1, 1, number_font[0][0].size() + 1, number_font[0].size(), seconds < 10 ? c_red : c_def);
+	DrawBigText("DOUBLE_DOT.txt", (seconds < 10 ? c_red : c_def), LEFT + B_WIDTH * (BOARD_SIZE / 2) + number_font[0][0].size() + 1 + 1, 1);
+	PrintNumber(seconds, LEFT + B_WIDTH * (BOARD_SIZE / 2) + 7 + 1, 1, seconds < 10 ? c_red : c_def);
 	GotoXY(_X, _Y);
 }
 
@@ -249,13 +249,13 @@ void DrawInGameMenu() {
 }
 
 void DrawPlayer(int COLOR) {
-	DrawBorder(20 ,0, 15, 5, DL_T, c_dblue);
+	DrawBorder(22, 0, 15, 5, DL_T, c_dblue);
 	DrawBorder(67, 0, 15, 5, DL_T, c_dblue);
-	PrintText(L"NAME: ", 241, 22, 1);
-	PrintText(L"W ON: ", 241, 22, 3);
+	PrintText(L"NAME: ", 241, 24, 1);
+	PrintText(L"WON: ", 241, 24, 3);
 	PrintText(L"NAME: ", 241, 69, 1);
-	PrintText(L"W ON: ", 241, 69, 3);
-	if (COLOR == -1)
+	PrintText(L"WON: ", 241, 69, 3);
+	if (COLOR == -1)//NHAN LUOT DANH VAO NEU LOAD GAME
 	{
 		DrawBigText("O_PLAYER.txt", c_green, LEFT, 0);
 		DrawBigText("X_PLAYER.txt", c_gray, LEFT + B_WIDTH * (BOARD_SIZE + 1) + 5, 0);
@@ -270,7 +270,6 @@ void DrawPlayer(int COLOR) {
 }
 
 int ProcessFinish(int pWhoWin) {
-	//GotoXY(0, _A[BOARD_SIZE - 1][BOARD_SIZE - 1].y + 2);
 	switch (pWhoWin)
 	{
 	case -1:
@@ -341,7 +340,7 @@ void ShowHelp()
 	const converter_type* converter = new converter_type;
 	const locale utf8_locale = locale(empty_locale, converter);
 	string filename = "HELP.txt";
-	int x = X_CENTER-10;
+	int x = X_CENTER - 10;
 	int y = 0;
 	wstring line;
 	int i = 0;
@@ -349,12 +348,10 @@ void ShowHelp()
 	helpFile.imbue(utf8_locale);
 	/*std::fstream helpFile;
 	helpFile.open("Help.txt", std::fstream::in);*/
-
 	system("cls");
-	//DrawBorder(X_CENTER , Y_CENTER -20, 54, 35, DL_T, c_dblue);
 	while (getline(helpFile, line))
 	{
-		PrintText(line, 244, x, y+ i);
+		PrintText(line, 244, x, y + i);
 		i++;
 	}
 }
@@ -370,26 +367,26 @@ void AboutUs()
 	int y = Y_CENTER / 4;
 	wstring line;
 	int i = 0;
-	wifstream helpFile(filename.c_str());
-	helpFile.imbue(utf8_locale);
+	wifstream ABOUTUS(filename.c_str());
+	ABOUTUS.imbue(utf8_locale);
 	/*std::fstream helpFile;
 	helpFile.open("Help.txt", std::fstream::in);*/
 
 	system("cls");
 
-	DrawBigText("ABOUTUSBT.txt", 225, 47, 1, 50);	
+	DrawBigText("ABOUTUSBT.txt", 225, 47, 1, 50);
 	DrawBigText("ABOUTUS1.txt", c_red, 100, 3);
 
-	DrawBorder(X_CENTER - 10,Y_CENTER - 10, 40, 30, DL_T, c_dblue);
-	while (getline(helpFile, line))
+	DrawBorder(X_CENTER - 10, Y_CENTER - 10, 40, 30, DL_T, c_dblue);
+	while (getline(ABOUTUS, line))
 	{
-		PrintText(line, 244, x+9, y + i+10);
+		PrintText(line, 244, x + 9, y + i + 10);
 		i++;
 	}
 }
 void DrawMenuBackGround()
 {
-	
+
 }
 
 _MENU MainMenu()
@@ -400,14 +397,14 @@ _MENU MainMenu()
 	menu.x = X_CENTER - 7;
 	menu.y = Y_CENTER + 9;
 	menu.cursorColor = 244;
-	system("cls"); 
+	system("cls");
 	DrawBigText("CARO.txt", 225, 38, 1, 50);
 	DrawBigText("MENUDS1.txt", c_red, 45, 9);
 	DrawBigText("MENUDS2.txt", c_def, 67, 15);
 	DrawBigText("MENUDS3.txt", c_green, 85, 9);
 	DrawBigText("MENUDS4.txt", c_green, 100, 30);
 	DrawBigText("MENUDS4.txt", c_red, 25, 30);
-	DrawBorder(menu.x-9, Y_CENTER + 5 - 2, 45, 15, DL_T, c_dblue);
+	DrawBorder(menu.x - 9, Y_CENTER + 5 - 2, 45, 15, DL_T, c_dblue);
 	PrintText(L"***************************", 241, menu.x, menu.y - 3);
 	PrintText(L"*      WELCOME TO OUR CARO GAME     *", 241, menu.x - 5, menu.y - 2);
 	PrintText(L"***************************", 241, menu.x, menu.y - 1);
@@ -427,41 +424,41 @@ void ShowRank()
 	const converter_type* converter = new converter_type;
 	const locale utf8_locale = locale(empty_locale, converter);
 	string filename = PLAYER_LIST_OUT;
-	int x = X_CENTER+5 ;
-	int y = Y_CENTER / 4+10;
+	int x = X_CENTER + 5;
+	int y = Y_CENTER / 4 + 10;
 	int n = 225;
 	wstring line;
 	int i = 0;
-	wifstream helpFile(filename.c_str());
-	helpFile.imbue(utf8_locale);
+	wifstream RANK(filename.c_str());
+	RANK.imbue(utf8_locale);
 	/*std::fstream helpFile;
 	helpFile.open("Help.txt", std::fstream::in);*/
 
 	system("cls");
 	DrawBigText("TOPRANK.txt", 228, 55, 1, 50);
 	DrawBorder(X_CENTER - 9, Y_CENTER - 10, 30, 20, DL_T, 224);
-	while (getline(helpFile, line))
+	while (getline(RANK, line))
 	{
-		PrintText(line,n++, x, y + i);
+		PrintText(line, n++, x, y + i);
 		if (i % 2 == 0) i++;
-		else 
-		i+=5;
+		else
+			i += 5;
 	}
-	PrintText(L"BACK TO MENU - ESC", 224, x-8, y + i);
+	PrintText(L"BACK TO MENU - ESC", 224, x - 8, y + i);
 }
 void ShowPlayerInfo(_POINT _A[][BOARD_SIZE], _PLAYER _PLAYER1, _PLAYER _PLAYER2)
 {
-	
-	PrintText(_PLAYER1.name, 241,28, 1);
-	PrintText(_PLAYER2.name, 241, 75,1);
-	PrintText(to_wstring(_PLAYER1.wins), 241, 28,3);
-	PrintText(to_wstring(_PLAYER2.wins), 241, 75,3);
+
+	PrintText(_PLAYER1.name, 241, 30, 1);
+	PrintText(_PLAYER2.name, 241, 75, 1);
+	PrintText(to_wstring(_PLAYER1.wins), 241, 30, 3);
+	PrintText(to_wstring(_PLAYER2.wins), 241, 75, 3);
 	GotoXY(_X, _Y);
 }
 
 void Loadedfile(int& n, vector<wstring>& filenamesave)
 {
-	 n = 0;
+	n = 0;
 	const locale empty_locale = locale::empty();
 	typedef codecvt_utf8<wchar_t> converter_type;
 	const converter_type* converter = new converter_type;
@@ -470,34 +467,31 @@ void Loadedfile(int& n, vector<wstring>& filenamesave)
 	int x = X_CENTER - 18;
 	int y = Y_CENTER / 4;
 	wstring line;
-	int i = 0;
-	wifstream helpFile(filename.c_str());
-	helpFile.imbue(utf8_locale);
+	wifstream SAVEFILE(filename.c_str());
+	SAVEFILE.imbue(utf8_locale);
 	/*std::fstream helpFile;
 	helpFile.open("Help.txt", std::fstream::in);*/
 
 	system("cls");
 	DrawBigText("Loadfilemenu.txt", 228, 55, 1, 50);
 	DrawBorder(X_CENTER - 20, Y_CENTER - 13, 57, 30, DL_T, c_red);
-	while (getline(helpFile, line))
+	while (getline(SAVEFILE, line))
 	{
-		//PrintText(line, 244, x, y + i);
 		filenamesave.push_back(line);
-		i++;
 		n++;
 	}
 }
 _MENU SaveFileMenu(int& n, vector<wstring>& filenamesave)
 {
 	_MENU menu;
-	menu.x = X_CENTER-5 ;
-	menu.y = Y_CENTER -10;
+	menu.x = X_CENTER - 5;
+	menu.y = Y_CENTER - 10;
 	menu.cursorColor = 244;
-	Loadedfile(n,filenamesave);
-	menu.options = n+1;
-	for (int i=0;i<n;i++)
-		PrintText(filenamesave[i], 241, X_CENTER +2, menu.y+i);
-	PrintText(L"BACK TO MENU", 226, X_CENTER +2, menu.y + n);
+	Loadedfile(n, filenamesave);
+	menu.options = n + 1;
+	for (int i = 0; i < n; i++)
+		PrintText(filenamesave[i], 241, X_CENTER + 2, menu.y + i);
+	PrintText(L"BACK TO MENU", 226, X_CENTER + 2, menu.y + n);
 	return menu;
 }
 

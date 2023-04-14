@@ -2,8 +2,8 @@
 #include <mmsystem.h>
 vector<wstring>sf;
 int n = 0;
-int kt;
-int cl = 0;
+int kt;//CHON MENU LOAD GAME
+int cl = 0;//lUOT DANH LOAD FILE LUU TRUNG VOI MAU X - O
 void StartGame(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, int& cl)
 {
 	system("cls");
@@ -16,6 +16,7 @@ void StartGame(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, i
 	}
 	system("cls");
 	GetFont();
+	//LAP LAI HAI LAN DE HIEN THI KHONG BI CHE BOI BAN CO
 	if (cl != 0)
 	{
 		LoadData(_A, cl);
@@ -27,7 +28,7 @@ void StartGame(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, i
 		DrawPlayer(cl);
 	}
 	DrawBoard(BOARD_SIZE);
-	
+
 	if (cl != 0)
 	{
 		LoadData(_A, cl);
@@ -37,11 +38,11 @@ void StartGame(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, i
 	ShowPlayerInfo(_A, _PLAYER1, _PLAYER2);
 }
 
-bool StartInGameMENU(int &pos1, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& COLOR, int &save, int &exit) {
-	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+bool StartInGameMENU(int& pos1, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& COLOR, int& save, int& exit) {
+	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));//KHONG NHAP KI TU THUA BO NHO DEM
 	Sleep(50);
-	 int pos =0 ;
-	 int NAVIGATE = 0;
+	int pos = 0;
+	int NAVIGATE = 0;
 	bool change = true;
 	while (true) {
 		if (change) {
@@ -81,13 +82,14 @@ bool StartInGameMENU(int &pos1, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& COLOR
 				return 0;
 				break;
 			}
-			else if (pos == 2) { 
+			else if (pos == 2) {
 				ExitGame();
 				exit = 1;
-				return 0; }
-			 change = true;
-		     while ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) != 0);
-		     break;
+				return 0;
+			}
+			change = true;
+			while ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) != 0);
+			break;
 		case 27:
 			change = true;
 			while ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) != 0);
@@ -168,15 +170,13 @@ int SelectMenu(_MENU menu)
 	return cursor;
 }
 
-void RunMainMenu(bool& run, int option,_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, int &cl, _POINT _A[][BOARD_SIZE])
+void RunMainMenu(bool& run, int option, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, int& cl, _POINT _A[][BOARD_SIZE])
 {
 	int loadOption;
 	switch (option)
 	{
 	case 1:
 		SetPlayer(_PLAYER1, _PLAYER2, players);
-		//StartGame(_PLAYER1, _PLAYER2,players);
-		//RunGame(_A, _PLAYER1, _PLAYER2, _TURN, _COMMAND, _X, _Y);*/
 		run = false;
 		break;
 
@@ -185,17 +185,16 @@ void RunMainMenu(bool& run, int option,_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vec
 			Danh voi may
 		*/
 	case 3:
-		Loadedfile(n,sf);
-		kt = SelectMenu(SaveFileMenu(n,sf));
-		if (kt == n+1) break;
+		Loadedfile(n, sf);
+		kt = SelectMenu(SaveFileMenu(n, sf));
+		if (kt == n + 1) break;// NEU CHON BACK TO MENU
 		RunLoad(_A, kt, _PLAYER1, _PLAYER2, sf, n, cl);
-		//StartGame(_PLAYER1, _PLAYER2, players);
 		run = false;
 		break;
 	case 4:
-			ShowRank();
-			while ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) == 0);
-			break;
+		ShowRank();
+		while ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) == 0);
+		break;
 	case 5:
 		ShowHelp();
 		while ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) == 0);
@@ -218,7 +217,7 @@ void RunLoad(_POINT _A[][BOARD_SIZE], int option, _PLAYER& _PLAYER1, _PLAYER& _P
 	typedef codecvt_utf8<wchar_t> converter_type;
 	const converter_type* converter = new converter_type;
 	const locale utf8_locale = locale(empty_locale, converter);
-	wstring filename = filenamesave[option-1];
+	wstring filename = filenamesave[option - 1];
 	wifstream save(filename.c_str());
 	save.imbue(utf8_locale);
 	getline(save, _PLAYER1.name);

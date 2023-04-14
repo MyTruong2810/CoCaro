@@ -10,8 +10,8 @@ vector<vector<wstring>> number_font; // Vector chứa font số
 _PLAYER _PLAYER1, _PLAYER2;
 vector<_PLAYER> players;
 wstring x;
-int exit1 = 0;
-int COLOR = 0;
+int exit1 = 0;//LUU NEU CHON THOAT TRONG MENUINGAME
+int COLOR = 0;//MAU THE HIEN LUOT DANH DAU TIEN = LUOT DANH DAU TIEN
 char c;
 int main()
 {
@@ -34,12 +34,12 @@ int main()
 		{
 			PlaySoundA("nhacnen.wav", NULL, SND_ASYNC | SND_LOOP);
 			option = SelectMenu(MainMenu());
-			RunMainMenu(inMenu, option, _PLAYER1, _PLAYER2, players,COLOR,_A);
+			RunMainMenu(inMenu, option, _PLAYER1, _PLAYER2, players, COLOR, _A);
 		} while (inMenu);
 		inGame = true;
-		if (option == 7|| option == -1)
+		if (option == 7 || option == -1)
 			return 0;
-		StartGame(_PLAYER1, _PLAYER2, players,COLOR);
+		StartGame(_PLAYER1, _PLAYER2, players, COLOR);
 		int checkload = COLOR;
 		COLOR = 0;
 		seconds = TIME;
@@ -54,7 +54,7 @@ int main()
 			if ((GetAsyncKeyState(VK_RETURN) & (1 << 15)) != 0)
 				_COMMAND = 13;
 			else if ((GetAsyncKeyState(0x57/*W Keys*/) & (1 << 15)) != 0)
-			_COMMAND = 'W';
+				_COMMAND = 'W';
 			else if ((GetAsyncKeyState(0x41/*A Keys*/) & (1 << 15)) != 0)
 				_COMMAND = 'A';
 			else if ((GetAsyncKeyState(0x44/*D Keys*/) & (1 << 15)) != 0)
@@ -63,13 +63,13 @@ int main()
 				_COMMAND = 'S';
 			else if ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) != 0)
 				_COMMAND = 27;
-			else if ((GetAsyncKeyState(VK_SPACE) & (1 << 15)) != 0)
+			else if ((GetAsyncKeyState(VK_SPACE) & (1 << 15)) != 0)// TRUY CAP MENU NHAN NUT CACH
 				_COMMAND = 32;
 			//_COMMAND = toupper(_getch());
-			if (seconds <=0) _COMMAND = -1;
+			if (seconds <= 0) _COMMAND = -1;
 			if (_COMMAND == 32) {
-				StartInGameMENU(posis, _PLAYER1, _PLAYER2, COLOR, save, exit1); 
-				if (save==1)
+				StartInGameMENU(posis, _PLAYER1, _PLAYER2, COLOR, save, exit1);
+				if (save == 1)
 				{
 					PrintText(L"NameFile: ", 241, 0, 40);
 					wcin >> x;
@@ -79,9 +79,10 @@ int main()
 					DrawExit();
 					return 0;
 				}
-				if (posis% 2 != 0) DrawBigText("MUTE.txt", c_dblue, _A[0][BOARD_SIZE - 1].x + B_WIDTH * 6, _A[0][BOARD_SIZE - 1].y + 14 + IM_SPACE);
-				else 
-				DrawBigText("MUTE.txt", c_gray, _A[0][BOARD_SIZE - 1].x + B_WIDTH * 6, _A[0][BOARD_SIZE - 1].y + 14 + IM_SPACE);
+				//DOI MAU NUT MUTE
+				if (posis % 2 != 0) DrawBigText("MUTE.txt", c_dblue, _A[0][BOARD_SIZE - 1].x + B_WIDTH * 6, _A[0][BOARD_SIZE - 1].y + 14 + IM_SPACE);
+				else
+					DrawBigText("MUTE.txt", c_gray, _A[0][BOARD_SIZE - 1].x + B_WIDTH * 6, _A[0][BOARD_SIZE - 1].y + 14 + IM_SPACE);
 				if (exit1 != 0)
 				{
 					ExitGame();
@@ -93,15 +94,19 @@ int main()
 			}
 			else
 			{
-				if (_COMMAND == 'A') { MoveLeft(); while ((GetAsyncKeyState(0x41/*A Keys*/) & (1 << 15)) != 0) TimeUpdating(t1, seconds);
+				if (_COMMAND == 'A') {
+					MoveLeft(); while ((GetAsyncKeyState(0x41/*A Keys*/) & (1 << 15)) != 0) TimeUpdating(t1, seconds);
 				}
-				else if (_COMMAND == 'W') { MoveUp(); while ((GetAsyncKeyState(0x57/*W Keys*/) & (1 << 15)) != 0) TimeUpdating(t1, seconds);
-				
-				}
-				else if (_COMMAND == 'S') { MoveDown(); while ((GetAsyncKeyState(0x53/*S Keys*/) & (1 << 15)) != 0) TimeUpdating(t1, seconds);
+				else if (_COMMAND == 'W') {
+					MoveUp(); while ((GetAsyncKeyState(0x57/*W Keys*/) & (1 << 15)) != 0) TimeUpdating(t1, seconds);
 
 				}
-				else if (_COMMAND == 'D') { MoveRight(); while ((GetAsyncKeyState(0x44/*D Keys*/) & (1 << 15)) != 0) TimeUpdating(t1, seconds);
+				else if (_COMMAND == 'S') {
+					MoveDown(); while ((GetAsyncKeyState(0x53/*S Keys*/) & (1 << 15)) != 0) TimeUpdating(t1, seconds);
+
+				}
+				else if (_COMMAND == 'D') {
+					MoveRight(); while ((GetAsyncKeyState(0x44/*D Keys*/) & (1 << 15)) != 0) TimeUpdating(t1, seconds);
 				}
 				else if (_COMMAND == 13) {
 					switch (CheckBoard(_X, _Y)) {
@@ -109,7 +114,7 @@ int main()
 						validEnter = true;
 						SetColor(c_red);
 						wcout << X_SYM;
-						COLOR = -1;
+						COLOR = -1;//LUU LUOT DANH NEU CO LOAD GAME
 						if (posis % 2 == 0) PlaySound(TEXT("tick.wav"), NULL, SND_FILENAME);
 						DrawBigText("O_PLAYER.txt", c_green, LEFT, 0);
 						DrawBigText("X_PLAYER.txt", c_gray, LEFT + B_WIDTH * (BOARD_SIZE + 1) + 5, 0);
@@ -130,60 +135,20 @@ int main()
 					}
 
 					if (validEnter) {
-						 winner = ProcessFinish(TestBoard());
+						winner = ProcessFinish(TestBoard());
 						switch (winner)
 						{
 						case -1:
 							_PLAYER2.wins++;
-							//_PLAYER1.wins--;
-							//if (checkload == 0)
-							players = GetPlayerList();
-							{
-								Update_Rank(players, _PLAYER2);
-							}
-							//char c;
-							do
-							{
-								c = AskContinue(winner);
-							} while (c != 'Y' && c != 'N');
-							if (c == 'Y') {
-								seconds = TIME + 1;
-								COLOR = 0;
-								posis = 0;
-								StartGame(_PLAYER1, _PLAYER2, players, COLOR);
+							players = GetPlayerList();//lAY LAI DANH SACH NEU LOAD GAME
+							Update_Rank(players, _PLAYER2);
 
-							}
-							else {
-								posis = 0;
-								COLOR = 0;
-								inGame = false;
-							}
-							break;
 						case 1:
-							
-								_PLAYER1.wins++;
-								//if (checkload == 0) 
-								players = GetPlayerList();
-									Update_Rank(players, _PLAYER1); 
-								//char c;
-								do
-								{
-									c = AskContinue(winner);
-								} while (c != 'Y' && c != 'N');
-								if (c == 'Y') {
-									seconds = TIME + 1;
-									COLOR = 0;
-									
-									StartGame(_PLAYER1, _PLAYER2, players, COLOR);
 
-								}
-								else {
-									COLOR = 0;
-									inGame = false;
-								}
-								break;
+							_PLAYER1.wins++;
+							players = GetPlayerList();
+							Update_Rank(players, _PLAYER1);
 						case 0:
-							//char c;
 							do
 							{
 								c = AskContinue(winner);
@@ -191,8 +156,8 @@ int main()
 							if (c == 'Y') {
 								seconds = TIME + 1;
 								COLOR = 0;
-								
-								StartGame(_PLAYER1,_PLAYER2, players,COLOR);
+
+								StartGame(_PLAYER1, _PLAYER2, players, COLOR);
 							}
 							else {
 								COLOR = 0;
@@ -210,62 +175,19 @@ int main()
 					}
 				}
 				else if (_COMMAND == -1) {
-					 winner = -_TURN;
+					winner = -_TURN;
 					ProcessFinish(winner);
 					switch (winner)
 					{
 					case -1:
 						_PLAYER2.wins++;
-						//_PLAYER1.wins--;
 						players = GetPlayerList();
-						//if (checkload == 0)
-						{
-							Update_Rank(players, _PLAYER2);
-						}
-						//char c;
-						do
-						{
-							c = AskContinue(winner);
-						} while (c != 'Y' && c != 'N');
-						if (c == 'Y') {
-							seconds = TIME + 1;
-							COLOR = 0;
-							
-							StartGame(_PLAYER1, _PLAYER2, players, COLOR);
-
-						}
-						else {
-							COLOR = 0;
-							inGame = false;
-						}
-						break;
+						Update_Rank(players, _PLAYER2);
 					case 1:
 						_PLAYER1.wins++;
-						//if (checkload == 0)
-
 						players = GetPlayerList();
-						{
-							Update_Rank(players, _PLAYER1);
-						}
-						//char c;
-						do
-						{
-							c = AskContinue(winner);
-						} while (c != 'Y' && c != 'N');
-						if (c == 'Y') {
-							seconds = TIME + 1;
-							COLOR = 0;
-							posis = 0;
-							StartGame(_PLAYER1, _PLAYER2, players, COLOR);
-						}
-						else {
-							posis = 0;
-							COLOR = 0;
-							inGame = false;
-						}
-						break;
+						Update_Rank(players, _PLAYER1);
 					case 0:
-						//char c;
 						do
 						{
 							c = AskContinue(winner);
@@ -273,7 +195,7 @@ int main()
 						if (c == 'Y') {
 							seconds = TIME + 1;
 							COLOR = 0;
-							StartGame(_PLAYER1, _PLAYER2, players,COLOR);
+							StartGame(_PLAYER1, _PLAYER2, players, COLOR);
 
 						}
 						else {

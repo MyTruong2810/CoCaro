@@ -7,23 +7,23 @@ void SetPlayer(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players)
 	{
 		system("cls");
 		wcin.ignore();
-		DrawBorder(X_CENTER - 30, Y_CENTER-2, 80, 5, DL_T, c_dblue);
-		PrintText(L"ENTER PLAYER1'S NAME (2-10 CHARACTER):  ", 241, X_CENTER-24, Y_CENTER);
+		DrawBorder(X_CENTER - 30, Y_CENTER - 2, 80, 5, DL_T, c_dblue);
+		PrintText(L"ENTER PLAYER1'S NAME (2-10 CHARACTER):  ", 241, X_CENTER - 24, Y_CENTER);
 		wcin >> _PLAYER1.name;
 		_PLAYER1.wins = 0;
 	} while (_PLAYER1.name.length() < 2 || _PLAYER1.name.length() > 10);
-	
+
 	do
 	{
 		system("cls");
 		DrawBorder(X_CENTER - 30, Y_CENTER - 2, 80, 5, DL_T, c_red);
-		PrintText(L"ENTER PLAYER2'S NAME (2-10 CHARACTER):  ", 252, X_CENTER-24 , Y_CENTER);
+		PrintText(L"ENTER PLAYER2'S NAME (2-10 CHARACTER):  ", 252, X_CENTER - 24, Y_CENTER);
 		wcin >> _PLAYER2.name;
 		_PLAYER2.wins = 0;
 	} while (_PLAYER2.name.length() < 2 || _PLAYER2.name.length() > 10 || _PLAYER2.name == _PLAYER1.name);
-	_PLAYER1 = LoadPlayer(_PLAYER1,players);
+	_PLAYER1 = LoadPlayer(_PLAYER1, players);
 	SortPlayerList(players);
-	_PLAYER2 = LoadPlayer(_PLAYER2,players);
+	_PLAYER2 = LoadPlayer(_PLAYER2, players);
 	SortPlayerList(players);
 }
 bool CheckNameFile(wstring x)
@@ -50,9 +50,8 @@ bool CheckNameFile(wstring x)
 	return true;
 }
 
-void SaveName(_POINT _A[][BOARD_SIZE],wstring &x, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int &color)
+void SaveName(_POINT _A[][BOARD_SIZE], wstring& x, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& color)
 {
-	//Sleep(1000);
 	vector<wstring> SAVE;
 	const locale empty_locale = locale::empty();
 	typedef codecvt_utf8<wchar_t> converter_type;
@@ -82,8 +81,8 @@ void SaveName(_POINT _A[][BOARD_SIZE],wstring &x, _PLAYER& _PLAYER1, _PLAYER& _P
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
 			_A[i][j].x = HORIZONTAL_SPACE * j + LEFT + 2;
-			_A[i][j].y = VERTIAL_SPACE * i + TOP + 1; 
-			saveName2 << _A[i][j].c<< "\n";
+			_A[i][j].y = VERTIAL_SPACE * i + TOP + 1;
+			saveName2 << _A[i][j].c << "\n";
 		}
 	}
 }
@@ -111,7 +110,7 @@ vector<_PLAYER> GetPlayerList()
 	return players;
 }
 
-int CheckPlayerExistence(_PLAYER player, vector<_PLAYER> &players)
+int CheckPlayerExistence(_PLAYER player, vector<_PLAYER>& players)
 {
 
 	for (int i = 0; i < players.size(); i++)
@@ -133,10 +132,10 @@ void SavePlayer(_PLAYER player, vector<_PLAYER>& players)
 	const converter_type* converter = new converter_type;
 	const locale utf8_locale = locale(empty_locale, converter);
 	string filename = PLAYER_LIST;
-	wofstream playerListout(filename.c_str(),std::ios_base::app);
+	wofstream playerListout(filename.c_str(), std::ios_base::app);
 	playerListout.imbue(utf8_locale);
 	players = GetPlayerList();
-	int exist = CheckPlayerExistence(player,players);
+	int exist = CheckPlayerExistence(player, players);
 	if (exist == -1)
 	{
 		players.push_back(player);
@@ -147,32 +146,27 @@ void SavePlayer(_PLAYER player, vector<_PLAYER>& players)
 		players[exist].wins = player.wins;
 }
 
-_PLAYER LoadPlayer(_PLAYER player, vector<_PLAYER> &players)
+_PLAYER LoadPlayer(_PLAYER player, vector<_PLAYER>& players)
 {
 	players = GetPlayerList();
-	int exist = CheckPlayerExistence(player,players);
+	int exist = CheckPlayerExistence(player, players);
 
 	if (exist == -1)
 	{
 		player.wins = 0;
-		SavePlayer(player,players);;
-			return player;
+		SavePlayer(player, players);;
+		return player;
 	}
 	else
 		return players[exist];
 }
 
-/*void SetPlayerRank(_PLAYER& player)
-{
-	int exist = CheckPlayerExistence(player);
-	player.rank = exist + 1;
-}*/
 
 void SortPlayerList(vector<_PLAYER>& playerList)
 {
 	_PLAYER key;
-	for (int i=0;i< playerList.size()-1;i++)
-		for (int j=i+1;j< playerList.size();j++)
+	for (int i = 0; i < playerList.size() - 1; i++)
+		for (int j = i + 1; j < playerList.size(); j++)
 			if (playerList[i].rank < playerList[j].rank)
 			{
 				key = playerList[i];
@@ -192,7 +186,7 @@ void SortPlayerList(vector<_PLAYER>& playerList)
 	for (int i = 0; i < 3; i++)
 		playerListout << playerList[i].name << endl << playerList[i].rank << endl;
 	for (int i = 0; i < playerList.size(); i++)
-	playerList1<<playerList[i].name << endl << playerList[i].rank << endl;
+		playerList1 << playerList[i].name << endl << playerList[i].rank << endl;
 }
 void Update_Rank(vector<_PLAYER>& players, _PLAYER player)
 {
@@ -201,6 +195,7 @@ void Update_Rank(vector<_PLAYER>& players, _PLAYER player)
 			players[i].rank += 2;
 	SortPlayerList(players);
 }
+
 void ResetData() {
 	for (int i = 0; i < BOARD_SIZE; i++)
 	{
@@ -218,7 +213,7 @@ void ResetData() {
 	_X = _A[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1].x; _Y = _A[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1].y;
 
 }
-void LoadData(_POINT _A[][BOARD_SIZE],int &cl) {
+void LoadData(_POINT _A[][BOARD_SIZE], int& cl) {
 	for (int i = 0; i < BOARD_SIZE; i++)
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)

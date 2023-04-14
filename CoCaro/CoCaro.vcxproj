@@ -160,11 +160,13 @@
     <Text Include="MENUDS4.txt" />
     <Text Include="ABOUTUS1.txt" />
     <Text Include="MUTE.txt" />
+    <Text Include="O_PLAYER.txt" />
     <Text Include="PlayerList.txt" />
     <Text Include="PlayerListout.txt" />
     <Text Include="saveName.txt" />
     <Text Include="TANHAU.txt" />
     <Text Include="TOPRANK.txt" />
+    <Text Include="X_PLAYER.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

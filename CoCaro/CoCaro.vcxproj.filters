@@ -118,5 +118,11 @@
     <Text Include="TOPRANK.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="O_PLAYER.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="X_PLAYER.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
