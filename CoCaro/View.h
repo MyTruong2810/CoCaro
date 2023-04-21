@@ -35,7 +35,7 @@ int ProcessFinish(int pWhoWin);
 
 int AskContinue(int pWhoWin);
 
-void DrawExit();	
+void DrawExit();
 
 _MENU MainMenu();
 
@@ -54,3 +54,5 @@ void ShowRank();
 
 void Loadedfile(int& n, vector<wstring>& filenamesave);
 _MENU SaveFileMenu(int& n, vector<wstring>& filenamesave);
+void ShowPlayerInfovsBot(_POINT _A[][BOARD_SIZE], _PLAYER _PLAYER1, _PLAYER _PLAYER2);
+

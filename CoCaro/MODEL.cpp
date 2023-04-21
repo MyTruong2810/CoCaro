@@ -11,7 +11,7 @@ void SetPlayer(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players)
 		PrintText(L"ENTER PLAYER1'S NAME (2-10 CHARACTER):  ", 241, X_CENTER - 24, Y_CENTER);
 		wcin >> _PLAYER1.name;
 		_PLAYER1.wins = 0;
-	} while (_PLAYER1.name.length() < 2 || _PLAYER1.name.length() > 10);
+	} while (_PLAYER1.name.length() < 2 || _PLAYER1.name.length() > 10 || _PLAYER1.name == L"*BOT*");
 
 	do
 	{
@@ -20,7 +20,26 @@ void SetPlayer(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players)
 		PrintText(L"ENTER PLAYER2'S NAME (2-10 CHARACTER):  ", 252, X_CENTER - 24, Y_CENTER);
 		wcin >> _PLAYER2.name;
 		_PLAYER2.wins = 0;
-	} while (_PLAYER2.name.length() < 2 || _PLAYER2.name.length() > 10 || _PLAYER2.name == _PLAYER1.name);
+	} while (_PLAYER2.name.length() < 2 || _PLAYER2.name.length() > 10 || _PLAYER2.name == _PLAYER1.name || _PLAYER2.name == L"*BOT*");
+	_PLAYER1 = LoadPlayer(_PLAYER1, players);
+	SortPlayerList(players);
+	_PLAYER2 = LoadPlayer(_PLAYER2, players);
+	SortPlayerList(players);
+}
+void SetPlayervsBot(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players)
+{
+	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+	do
+	{
+		system("cls");
+		wcin.ignore();
+		DrawBorder(X_CENTER - 30, Y_CENTER - 2, 80, 5, DL_T, c_dblue);
+		PrintText(L"ENTER PLAYER'S NAME (2-10 CHARACTER):  ", 241, X_CENTER - 24, Y_CENTER);
+		wcin >> _PLAYER2.name;
+		_PLAYER2.wins = 0;
+	} while (_PLAYER2.name.length() < 2 || _PLAYER2.name.length() > 10);
+	_PLAYER1.name = L"*BOT*";
+	_PLAYER1.wins = 0;
 	_PLAYER1 = LoadPlayer(_PLAYER1, players);
 	SortPlayerList(players);
 	_PLAYER2 = LoadPlayer(_PLAYER2, players);
@@ -52,6 +71,7 @@ bool CheckNameFile(wstring x)
 
 void SaveName(_POINT _A[][BOARD_SIZE], wstring& x, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& color)
 {
+	wstring yn = L"Y";
 	vector<wstring> SAVE;
 	const locale empty_locale = locale::empty();
 	typedef codecvt_utf8<wchar_t> converter_type;
@@ -62,14 +82,23 @@ void SaveName(_POINT _A[][BOARD_SIZE], wstring& x, _PLAYER& _PLAYER1, _PLAYER& _
 	saveName.imbue(utf8_locale);
 	while (CheckNameFile(x) == false)
 	{
-		wcout << "Da ton tai!" << endl << "Nhap lai: ";
-		wcin >> x;
+		wcout << "EXISTED FILE!" << endl << "ENTER AGAIN(Y) OR STILL SAVE(N)" << endl;
+		wcin >> yn;
+		if (yn == L"Y")
+		{
+			PrintText(L"NameFile:                 ", 244, 63, 39);
+			PrintText(L"NameFile: ", 244, 63, 39);
+			wcin >> x;
+		}
+		else break;
 	}
 	x += L".txt";
 	saveName.close();
 	wofstream saveName1(filename.c_str(), std::ios_base::app);
 	saveName1.imbue(utf8_locale);
-	saveName1 << x << "\n";
+	if (yn == L"Y") {
+		saveName1 << x << "\n";
+	}
 	wstring filename2 = x;
 	wofstream saveName2(filename2.c_str());
 	saveName2.imbue(utf8_locale);
@@ -474,5 +503,50 @@ void GetFont() {
 				}
 			}
 		}
+	}
+}
+
+
+_POINT computerPoint()
+{
+	int x = rand() % BOARD_SIZE;
+	int y = rand() % BOARD_SIZE;
+	return { x, y };
+}
+
+_POINT minDistance(_POINT point)
+{
+	int minDist = INT_MAX;
+	int minI, minJ;
+	int times = BOARD_SIZE * BOARD_SIZE;
+	while (times != 0) {
+		_POINT p_temp = computerPoint();
+		int i = p_temp.x;
+		int j = p_temp.y;
+		int dist = sqrt(pow(point.x - i, 2) + pow(point.y - j, 2));
+		if (dist < minDist && _A[i][j].c == 0)
+		{
+			minDist = dist;
+			minI = i;
+			minJ = j;
+		}
+		times -= 1;
+	}
+	return { minI, minJ };
+}_POINT closetCenter()
+{
+	int begin = (BOARD_SIZE - 1) / 2, end = (BOARD_SIZE - 1) / 2 + 1;
+	while (begin >= 0 && end <= BOARD_SIZE - 1) {
+		for (int i = begin; i <= end; i++) {
+			for (int j = begin; j <= end; j++) {
+				if (_A[i][j].c == 0) {
+					_POINT closest_point = { 0, 0 };
+					closest_point.x = i;
+					closest_point.y = j;
+					return closest_point;
+				}
+			}
+		}
+		begin -= 1; end += 1;
 	}
 }

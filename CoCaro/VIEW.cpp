@@ -22,8 +22,8 @@ void ChangeConsole() {
 	GetCurrentConsoleFontEx(hConsole, FALSE, &font);
 	font.dwFontSize.X = 13; // font width
 	font.dwFontSize.Y = 16; // font height
-	wcscpy_s(font.FaceName, L"Impact"); // font name
-	SetCurrentConsoleFontEx(hConsole, FALSE, &font);
+	wcscpy_s(font.FaceName, L"IMPACT");// font name
+	SetCurrentConsoleFontEx(hConsole, TRUE, &font);
 	SetConsoleTitleA("Caro Game");
 	SetConsoleTextAttribute(hConsole, c_def);
 	GetWindowRect(hDesktop, &r);
@@ -455,6 +455,15 @@ void ShowPlayerInfo(_POINT _A[][BOARD_SIZE], _PLAYER _PLAYER1, _PLAYER _PLAYER2)
 	PrintText(to_wstring(_PLAYER2.wins), 241, 75, 3);
 	GotoXY(_X, _Y);
 }
+void ShowPlayerInfovsBot(_POINT _A[][BOARD_SIZE], _PLAYER _PLAYER1, _PLAYER _PLAYER2)
+{
+
+	PrintText(_PLAYER1.name, 244, 30, 1);
+	PrintText(_PLAYER2.name, 241, 75, 1);
+	PrintText(to_wstring(_PLAYER1.wins), 241, 30, 3);
+	PrintText(to_wstring(_PLAYER2.wins), 241, 75, 3);
+	GotoXY(_X, _Y);
+}
 
 void Loadedfile(int& n, vector<wstring>& filenamesave)
 {
@@ -471,10 +480,6 @@ void Loadedfile(int& n, vector<wstring>& filenamesave)
 	SAVEFILE.imbue(utf8_locale);
 	/*std::fstream helpFile;
 	helpFile.open("Help.txt", std::fstream::in);*/
-
-	system("cls");
-	DrawBigText("Loadfilemenu.txt", 228, 55, 1, 50);
-	DrawBorder(X_CENTER - 20, Y_CENTER - 13, 57, 30, DL_T, c_red);
 	while (getline(SAVEFILE, line))
 	{
 		filenamesave.push_back(line);
@@ -488,6 +493,9 @@ _MENU SaveFileMenu(int& n, vector<wstring>& filenamesave)
 	menu.y = Y_CENTER - 10;
 	menu.cursorColor = 244;
 	Loadedfile(n, filenamesave);
+	system("cls");
+	DrawBigText("Loadfilemenu.txt", 228, 55, 1, 50);
+	DrawBorder(X_CENTER - 20, Y_CENTER - 13, 57, 30, DL_T, c_red);
 	menu.options = n + 1;
 	for (int i = 0; i < n; i++)
 		PrintText(filenamesave[i], 241, X_CENTER + 2, menu.y + i);

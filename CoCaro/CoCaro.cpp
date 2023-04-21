@@ -12,7 +12,7 @@ vector<_PLAYER> players;
 wstring x;
 int exit1 = 0;//LUU NEU CHON THOAT TRONG MENUINGAME
 int COLOR = 0;//MAU THE HIEN LUOT DANH DAU TIEN = LUOT DANH DAU TIEN
-char c;
+char c = 'x';
 int main()
 {
 	_setmode(_fileno(stdin), _O_U16TEXT);
@@ -26,6 +26,7 @@ int main()
 	bool inGame = false;
 	bool TimeSwitch = false;
 	int winner;
+	_POINT mark_point = { 0, 0 };
 	while (true)
 	{
 		bool inMenu = true;
@@ -34,17 +35,21 @@ int main()
 		{
 			PlaySoundA("nhacnen.wav", NULL, SND_ASYNC | SND_LOOP);
 			option = SelectMenu(MainMenu());
+			if (c == 'N') wcin.ignore();
 			RunMainMenu(inMenu, option, _PLAYER1, _PLAYER2, players, COLOR, _A);
 		} while (inMenu);
 		inGame = true;
 		if (option == 7 || option == -1)
 			return 0;
-		StartGame(_PLAYER1, _PLAYER2, players, COLOR);
+		if (_PLAYER1.name == L"*BOT*") option = 2;
+		StartGame(_PLAYER1, _PLAYER2, players, COLOR, option);
 		int checkload = COLOR;
 		COLOR = 0;
 		seconds = TIME;
 		inGame = true;
 		TimeSwitch = false;
+		int check_turn = -1;
+		int count_turn = 0;
 		high_resolution_clock::time_point t1 = high_resolution_clock::now();
 		while (inGame)
 		{
@@ -63,15 +68,38 @@ int main()
 				_COMMAND = 'S';
 			else if ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) != 0)
 				_COMMAND = 27;
-			else if ((GetAsyncKeyState(VK_SPACE) & (1 << 15)) != 0)// TRUY CAP MENU NHAN NUT CACH
-				_COMMAND = 32;
+			else if ((GetAsyncKeyState(VK_SHIFT) & (1 << 15)) != 0)// TRUY CAP MENU NHAN NUT SHIFT
+				_COMMAND = 10;
 			//_COMMAND = toupper(_getch());
+			if (option == 2 && _TURN == 1) {
+				_POINT comp_point = { 0, 0 };
+				if (check_turn == -1) {
+					comp_point = minDistance(mark_point);
+					count_turn++;
+					check_turn *= -1;
+				}
+				if (check_turn == 1) {
+					comp_point = closetCenter();
+					if (count_turn >= 2)
+					{
+						check_turn *= -1;
+						count_turn = 0;
+					}
+				}
+				int x_cPoint = comp_point.x;
+				int y_cPoint = comp_point.y;
+				_X = _A[x_cPoint][y_cPoint].x;
+				_Y = _A[x_cPoint][y_cPoint].y;
+				GotoXY(_X, _Y);
+				_COMMAND = 13;
+			}
 			if (seconds <= 0) _COMMAND = -1;
-			if (_COMMAND == 32) {
+			if (_COMMAND == 10) {
 				StartInGameMENU(posis, _PLAYER1, _PLAYER2, COLOR, save, exit1);
 				if (save == 1)
 				{
-					PrintText(L"NameFile: ", 241, 0, 40);
+					DrawBorder(60, 38, 30, 4, DL_T, 228);
+					PrintText(L"NameFile: ", 244, 63, 39);
 					wcin >> x;
 					SaveName(_A, x, _PLAYER1, _PLAYER2, COLOR);
 					system("cls");
@@ -142,13 +170,6 @@ int main()
 							_PLAYER2.wins++;
 							players = GetPlayerList();//lAY LAI DANH SACH NEU LOAD GAME
 							Update_Rank(players, _PLAYER2);
-
-						case 1:
-
-							_PLAYER1.wins++;
-							players = GetPlayerList();
-							Update_Rank(players, _PLAYER1);
-						case 0:
 							do
 							{
 								c = AskContinue(winner);
@@ -157,7 +178,45 @@ int main()
 								seconds = TIME + 1;
 								COLOR = 0;
 
-								StartGame(_PLAYER1, _PLAYER2, players, COLOR);
+								StartGame(_PLAYER1, _PLAYER2, players, COLOR, option);
+							}
+							else {
+								COLOR = 0;
+								seconds = TIME;
+								inGame = false;
+							}
+							break;
+
+						case 1:
+
+							_PLAYER1.wins++;
+							players = GetPlayerList();
+							Update_Rank(players, _PLAYER1);
+							do
+							{
+								c = AskContinue(winner);
+							} while (c != 'Y' && c != 'N');
+							if (c == 'Y') {
+								seconds = TIME + 1;
+								COLOR = 0;
+
+								StartGame(_PLAYER1, _PLAYER2, players, COLOR, option);
+							}
+							else {
+								COLOR = 0;
+								seconds = TIME;
+								inGame = false;
+							}
+							break;
+						case 0:
+							do
+							{
+								c = AskContinue(winner);
+							} while (c != 'Y' && c != 'N');
+							if (c == 'Y') {
+								seconds = TIME + 1;
+								COLOR = 0;
+								StartGame(_PLAYER1, _PLAYER2, players, COLOR, option);
 							}
 							else {
 								COLOR = 0;
@@ -183,10 +242,42 @@ int main()
 						_PLAYER2.wins++;
 						players = GetPlayerList();
 						Update_Rank(players, _PLAYER2);
+						do
+						{
+							c = AskContinue(winner);
+						} while (c != 'Y' && c != 'N');
+						if (c == 'Y') {
+							seconds = TIME + 1;
+							COLOR = 0;
+
+							StartGame(_PLAYER1, _PLAYER2, players, COLOR, option);
+						}
+						else {
+							COLOR = 0;
+							seconds = TIME;
+							inGame = false;
+						}
+						break;
 					case 1:
 						_PLAYER1.wins++;
 						players = GetPlayerList();
 						Update_Rank(players, _PLAYER1);
+						do
+						{
+							c = AskContinue(winner);
+						} while (c != 'Y' && c != 'N');
+						if (c == 'Y') {
+							seconds = TIME + 1;
+							COLOR = 0;
+
+							StartGame(_PLAYER1, _PLAYER2, players, COLOR, option);
+						}
+						else {
+							COLOR = 0;
+							seconds = TIME;
+							inGame = false;
+						}
+						break;
 					case 0:
 						do
 						{
@@ -195,7 +286,7 @@ int main()
 						if (c == 'Y') {
 							seconds = TIME + 1;
 							COLOR = 0;
-							StartGame(_PLAYER1, _PLAYER2, players, COLOR);
+							StartGame(_PLAYER1, _PLAYER2, players, COLOR, option);
 
 						}
 						else {

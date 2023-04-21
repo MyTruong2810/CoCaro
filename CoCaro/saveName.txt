@@ -10,3 +10,5 @@ TOANTRI.txt
 TRIHONG.txt
 TRANMY.txt
 TRONGTRI.txt
+TRUONG.txt
+VSBOT.txt

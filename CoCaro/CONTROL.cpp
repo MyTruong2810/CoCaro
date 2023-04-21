@@ -4,7 +4,7 @@ vector<wstring>sf;
 int n = 0;
 int kt;//CHON MENU LOAD GAME
 int cl = 0;//lUOT DANH LOAD FILE LUU TRUNG VOI MAU X - O
-void StartGame(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, int& cl)
+void StartGame(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, int& cl, int bot)
 {
 	system("cls");
 	PlaySound(TEXT("NoSound.wav"), NULL, SND_FILENAME);
@@ -35,7 +35,10 @@ void StartGame(_PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, i
 	}
 	else ResetData();
 	DrawInGameMenu();
-	ShowPlayerInfo(_A, _PLAYER1, _PLAYER2);
+	if (bot == 2)
+		ShowPlayerInfovsBot(_A, _PLAYER1, _PLAYER2);
+	else
+		ShowPlayerInfo(_A, _PLAYER1, _PLAYER2);
 }
 
 bool StartInGameMENU(int& pos1, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& COLOR, int& save, int& exit) {
@@ -54,8 +57,8 @@ bool StartInGameMENU(int& pos1, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& COLOR
 			NAVIGATE = 'W';
 		else if ((GetAsyncKeyState(0x53/*S Keys*/) & (1 << 15)) != 0)
 			NAVIGATE = 'S';
-		else if ((GetAsyncKeyState(VK_RETURN) & (1 << 15)) != 0)
-			NAVIGATE = 13;
+		else if ((GetAsyncKeyState(VK_SPACE) & (1 << 15)) != 0)//IN GAME MENU NHAN NUT SPACE DE CHON 
+			NAVIGATE = 32;
 		else if ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) != 0)
 			NAVIGATE = 27;
 		// NAVIGATE = toupper(_getch());
@@ -71,13 +74,14 @@ bool StartInGameMENU(int& pos1, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& COLOR
 			change = true;
 			while ((GetAsyncKeyState(0x53/*S Keys*/) & (1 << 15)) != 0);
 			break;
-		case 13:
+		case 32:
 			if (pos == 0) {
 				save = 1;
 				return 0;
 				break;
 			}
 			else if (pos == 1) {
+				GotoXY(_X, _Y);
 				pos1++;
 				return 0;
 				break;
@@ -94,7 +98,6 @@ bool StartInGameMENU(int& pos1, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, int& COLOR
 			change = true;
 			while ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) != 0);
 			DrawInGameMenuUSING(-1);
-			GotoXY(_X, _Y);
 			return 1;
 		}
 		if (pos > 2) pos = 0;
@@ -140,25 +143,25 @@ int SelectMenu(_MENU menu)
 		key = 0;
 		if ((GetAsyncKeyState(VK_RETURN) & (1 << 15)) != 0)
 			key = 13;
-		else if ((GetAsyncKeyState(VK_UP) & (1 << 15)) != 0)
-			key = ARROW_UP;
-		else if ((GetAsyncKeyState(VK_DOWN) & (1 << 15)) != 0)
-			key = ARROW_DOWN;
+		else if ((GetAsyncKeyState(0x57/*W Keys*/) & (1 << 15)) != 0)
+			key = 'W';
+		else if ((GetAsyncKeyState(0x53/*S Keys*/) & (1 << 15)) != 0)
+			key = 'S';
 		else if ((GetAsyncKeyState(VK_ESCAPE) & (1 << 15)) != 0)
 			key = 27;
-		if (key == ARROW_UP && cursor > 1)
+		if (key == 'W' && cursor > 1)
 		{
-			PrintText(L"       ", menu.cursorColor, menu.x - 1, menu.y + cursor - 1);
+			PrintText(L"        ", menu.cursorColor, menu.x - 1, menu.y + cursor - 1);
 			cursor--;
 			PrintText(L"▀▀ ▀▀", menu.cursorColor, menu.x - 1, menu.y + cursor - 1);
-			while ((GetAsyncKeyState(VK_UP) & (1 << 15)) != 0);
+			while ((GetAsyncKeyState(0x57/*W Keys*/) & (1 << 15)) != 0);
 		}
-		else if (key == ARROW_DOWN && cursor < menu.options)
+		else if (key == 'S' && cursor < menu.options)
 		{
-			PrintText(L"       ", menu.cursorColor, menu.x - 1, menu.y + cursor - 1);
+			PrintText(L"        ", menu.cursorColor, menu.x - 1, menu.y + cursor - 1);
 			cursor++;
 			PrintText(L"▀▀ ▀▀", menu.cursorColor, menu.x - 1, menu.y + cursor - 1);
-			while ((GetAsyncKeyState(VK_DOWN) & (1 << 15)) != 0);
+			while ((GetAsyncKeyState(0x53/*S Keys*/) & (1 << 15)) != 0);
 		}
 		else if (key == ESC)
 		{
@@ -172,7 +175,6 @@ int SelectMenu(_MENU menu)
 
 void RunMainMenu(bool& run, int option, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, vector<_PLAYER>& players, int& cl, _POINT _A[][BOARD_SIZE])
 {
-	int loadOption;
 	switch (option)
 	{
 	case 1:
@@ -184,10 +186,13 @@ void RunMainMenu(bool& run, int option, _PLAYER& _PLAYER1, _PLAYER& _PLAYER2, ve
 		/*
 			Danh voi may
 		*/
+		SetPlayervsBot(_PLAYER1, _PLAYER2, players);
+		run = false;
+		break;
 	case 3:
 		Loadedfile(n, sf);
 		kt = SelectMenu(SaveFileMenu(n, sf));
-		if (kt == n + 1) break;// NEU CHON BACK TO MENU
+		if (kt == n + 1 || kt == -1) break;// NEU CHON BACK TO MENU
 		RunLoad(_A, kt, _PLAYER1, _PLAYER2, sf, n, cl);
 		run = false;
 		break;
